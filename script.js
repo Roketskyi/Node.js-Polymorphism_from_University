@@ -14,7 +14,7 @@ class Room {
     }
 
     getDescription() {
-        return this.description || `Назва: ${this.name}, Тип: ${this.type}, Площа: ${this.getArea()} квадратних метрів`;
+        return this.description || `Назва: ${this.name}, Тип: ${this.type}, Площа: ${this.getArea()} м²`;
     }
 }
 
@@ -61,18 +61,14 @@ class House {
 
     editRoom(name, newRoom) {
         const index = this.rooms.findIndex(room => room.name === name);
-        if (index !== -1) {
-            this.rooms[index] = newRoom;
-        } else {
-            console.log('Room not found.');
-        }
+
+        (index !== -1) ? this.rooms[index] = newRoom : console.log('Room not found.');
     }
 
     getTotalLivingArea() {
         return this.rooms.reduce((totalArea, room) => {
-            if (room.type === 'Вітальня') {
-                totalArea += room.getArea();
-            }
+            if (room.type === 'Вітальня') totalArea += room.getArea();
+
             return totalArea;
         }, 0);
     }
@@ -87,29 +83,31 @@ class House {
 
     getRoomsCountByForm() {
         const countByForm = {};
+        
         this.rooms.forEach(room => {
             const form = room.areaCalculator.constructor.name;
             countByForm[form] = (countByForm[form] || 0) + 1;
         });
+
         return countByForm;
     }
 
     getRoomsCountByType() {
-        const countByType = {};
+        const countByType = { };
+
         this.rooms.forEach(room => {
             countByType[room.type] = (countByType[room.type] || 0) + 1;
         });
+        
         return countByType;
     }
 
     getGasUsage() {
-        // Припустимо, що ми генеруємо випадкову кількість газу
-        return Math.floor(Math.random() * 100) + 1; // У кубічних метрах
+        return Math.floor(Math.random() * 100) + 1;
     }
 
     getWaterUsage() {
-        // Припустимо, що ми генеруємо випадкову кількість води
-        return Math.floor(Math.random() * 1000) + 1; // У літрах
+        return Math.floor(Math.random() * 1000) + 1;
     }
 }
 
@@ -130,12 +128,12 @@ house.addRoom(bathroom);
 house.addRoom(triangularRoom);
 house.addRoom(circularRoom);
 
-console.log('Загальна площа житлових кімнат:', house.getTotalLivingArea(), 'квадратних метрів');
-console.log('Площалоща всіх кімнат:', house.getTotalArea(), 'квадратних метрів');
+console.log('Загальна площа житлових кімнат:', house.getTotalLivingArea(), 'м²');
+console.log('Площалоща всіх кімнат:', house.getTotalArea(), 'м²');
 console.log('Перелік кімнат:', house.getRoomsList());
 console.log('Кількість кімнат кожної Форми:', house.getRoomsCountByForm());
 console.log('Кількість кімнат кожного Типу:', house.getRoomsCountByType());
-console.log('Використано Газу:', house.getGasUsage(), 'кубічних метрів');
+console.log('Використано Газу:', house.getGasUsage(), 'м³');
 console.log('Використано Води:', house.getWaterUsage(), 'літрів');
 
 // Редагування кімнати
